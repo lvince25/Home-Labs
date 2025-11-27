@@ -1,77 +1,211 @@
-# 🖥️ Azure Windows Server 2025 Datacenter – VM Deployment Lab
+🖥️ Azure Windows Server 2025 – VM Deployment & Security Lab
+📘 Overview
 
-## 📘 Project Overview
-This lab demonstrates how to deploy a **Windows Server 2025 Datacenter (x64 Gen2)** virtual machine in **Microsoft Azure**, configure basic networking, connect via RDP, and verify the setup using PowerShell commands.  
+This lab demonstrates how I deployed a Windows Server 2025 Datacenter (x64 Gen2) virtual machine in Microsoft Azure, configured networking, secured remote access, and validated the server using PowerShell commands.
 
-This project forms part of my home lab series to strengthen my **cloud administration and infrastructure fundamentals**, with all steps fully documented and supported by screenshots.
+This project forms part of my home lab series designed to strengthen my cloud administration, infrastructure, and security fundamentals.
 
----
+🧱 Architecture Diagram (Text Version)
+Client Machine → Azure Portal
+       ↓
+Resource Group: ServerLab-RG
+       ↓
+Virtual Machine: ServerLab-VM (Windows Server 2025)
+       ↓
+Virtual Network (Default VNet created by Azure)
+       ↓
+Subnet (Default Subnet)
+       ↓
+Network Security Group (NSG)
+       ↳ Inbound: RDP (3389) from my IP
+       ↳ Outbound: Internet (default)
 
-## ⚙️ Lab Objectives
-- Create a Windows Server VM in Azure.  
-- Configure virtual networking and RDP access.  
-- Connect remotely and verify system configuration.  
-- Capture and document each step with screenshots.  
-- Host the full project on GitHub as part of a cloud portfolio.
+🎯 Lab Objectives
 
----
+Deploy a Windows Server 2025 VM in Azure
 
-## 🧩 Prerequisites
-- Active **Azure subscription** (Free Trial or Pay-As-You-Go).  
-- Access to the [Azure Portal](https://portal.azure.com).  
-- Basic knowledge of virtual machines and networking.  
+Configure virtual networking and RDP access
 
----
+Connect to the VM using RDP
 
-## 🧠 Step-by-Step Implementation
+Validate OS configuration using PowerShell
 
-### **Step 1 – Log into Azure Portal**
-- Navigate to [https://portal.azure.com](https://portal.azure.com) and sign in.  
-📸 *Screenshot 1:* Azure Portal dashboard after login.
+Document all steps with screenshots
 
----
+Apply basic security considerations
 
-### **Step 2 – Create a New Virtual Machine**
-1. Go to **Virtual Machines** → **Create** → **Azure Virtual Machine**.  
-2. Fill in the following fields:  
-   - **Resource group:** `ServerLab-RG`  
-   - **VM name:** `ServerLab-VM`  
-   - **Region:** `South Africa North` (or your preferred region)  
-   - **Image:** `Windows Server 2025 Datacenter – x64 Gen2`  
-   - **Size:** `Standard_B2s` (2 vCPU, 4GB RAM)  
-   - **Authentication type:** `Password`  
-   - **Username:** `labadmin`  
-3. Click **Next → Networking**.  
-📸 *Screenshot 2:* VM creation form (Basics tab) filled in.
+🧩 Prerequisites
 
----
+Active Azure subscription
 
-### **Step 3 – Configure Networking**
-- Keep the default **Virtual Network** and **Subnet** created by Azure.  
-- Under *Inbound Ports*, allow **RDP (3389)**.  
-📸 *Screenshot 3:* Networking configuration before creation.
+Access to Azure Portal
 
----
+Basic knowledge of virtual machines and networking
 
-### **Step 4 – Review + Create**
-- Skip optional tabs (Management, Monitoring, Advanced).  
-- Click **Review + Create**, wait for validation, then **Create**.  
-📸 *Screenshot 4:* Validation passed.  
-📸 *Screenshot 5:* Deployment in progress or success confirmation.
+RDP client installed
 
----
+🚀 Step-by-Step Implementation
+Step 1 — Log Into Azure Portal
 
-### **Step 5 – Connect to the VM**
-1. Once deployed, open the resource → **Connect → RDP**.  
-2. Download and open the `.rdp` file.  
-3. Log in with your credentials (e.g., `labadmin`).  
-📸 *Screenshot 6:* Windows Server 2025 desktop after successful login.
+Navigate to https://portal.azure.com
 
----
+Sign in with your Azure account
+📸 Screenshot: Azure Portal dashboard
 
-### **Step 6 – Verify System Configuration**
-Open **PowerShell** and run:
-```powershell
+Step 2 — Create a New Windows Server 2025 VM
+
+Navigate to:
+Virtual Machines → Create → Azure Virtual Machine
+
+Configuration used:
+
+Resource group: ServerLab-RG
+
+VM name: ServerLab-VM
+
+Region: South Africa North
+
+Image: Windows Server 2025 Datacenter (x64 Gen2)
+
+Size: Standard_B2s
+
+Authentication: Password
+
+Username: labadmin
+
+📸 Screenshot: VM creation Basic settings
+
+Click Next → Networking
+
+Step 3 — Configure Networking
+
+Use default VNet and subnet (Azure-generated)
+
+Inbound port rules:
+
+Allow RDP (3389)
+
+Source: My IP (recommended)
+
+NIC: Default
+
+📸 Screenshot: Networking configuration
+
+Step 4 — Review + Create
+
+Skip optional tabs (Management, Monitoring, Advanced)
+
+Click Review + Create
+
+After validation passes → Create
+
+📸 Screenshot: Validation passed
+📸 Screenshot: Deployment completed
+
+Step 5 — Connect to the VM
+
+Go to your VM resource
+
+Select Connect → RDP
+
+Download the .rdp file
+
+Log in using the credentials created earlier
+📸 Screenshot: Windows Server 2025 desktop on login
+
+Step 6 — Verify System Configuration
+
+Using PowerShell, run:
+
 systeminfo
 hostname
 Get-WindowsEdition
+Get-NetIPAddress
+
+
+📸 Screenshot: PowerShell output
+
+🔐 Security Considerations
+
+Even though this was a basic deployment, I applied several security best practices:
+
+Networking
+
+Restricted RDP to my IP address only
+
+Ensured only port 3389 is exposed
+
+Default outbound rules kept minimal
+
+OS Security
+
+Strong admin password enforced
+
+Windows Firewall enabled
+
+Installed initial Windows Updates
+
+Verified RDP NLA (Network Level Authentication)
+
+Future Enhancements
+
+Use Azure Bastion (removes need for public RDP)
+
+Use Privileged Access Workstations
+
+Implement Just-In-Time (JIT) access
+
+Hardening following CIS benchmarks
+
+🛠 Troubleshooting
+
+Common issues that may occur during deployment:
+
+1️⃣ RDP Not Connecting
+
+NSG missing inbound rule for RDP
+
+RDP allowed from “Any” but Azure blocked IP
+
+Wrong credentials
+
+VM still booting
+
+2️⃣ Wrong VM SKU Availability
+
+South Africa North sometimes lacks Standard_B2s capacity
+
+Switch region or VM size
+
+3️⃣ DNS / IP Issues
+
+Run ipconfig /all inside server
+
+Confirm private IP assigned
+
+🧠 What I Learned
+
+How to deploy Windows Server 2025 in Azure
+
+Understanding VM components (NIC, VNet, Disk, NSG)
+
+Securing remote access using NSGs
+
+Basic OS validation and post-deployment configuration
+
+Importance of identity + network security in cloud deployments
+
+🏢 Real-World Business Value
+
+This lab mirrors tasks done daily by Cloud Support and Cloud Engineers:
+
+Provisioning secure virtual machines
+
+Enforcing network security
+
+Managing remote connections
+
+Validating system health
+
+Creating repeatable deployment patterns
+
