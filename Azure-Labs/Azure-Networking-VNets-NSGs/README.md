@@ -24,6 +24,18 @@ This lab demonstrates the design and implementation of a segmented Azure virtual
 - Tested allowed and denied traffic scenarios
 - Validated flow using Network Watcher and troubleshooting tools
 
+  
+## Validation & Testing
+
+Network security and segmentation were validated through controlled connectivity testing:
+
+- Confirmed RDP (TCP 3389) access was **allowed** only from the Management subnet to Management VM
+- Confirmed RDP (TCP 3389) access was **blocked** to Application VM in the App subnet
+- Verified subnet isolation and NSG enforcement using live RDP connection attempts
+- Validated least-privilege access by testing inbound and outbound traffic scenarios
+
+Results confirmed correct NSG rule priority, subnet association, and secure traffic flow.
+
 ## Tools & Technologies
 - Microsoft Azure
 - Azure Virtual Networks
